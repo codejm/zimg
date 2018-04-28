@@ -232,11 +232,18 @@ int convert(MagickWand *im, zimg_req_t *req) {
         LOG_PRINT(LOG_DEBUG, "wi_set_format(im, %s) ret = %d", req->fmt, ret);
         if (ret != MagickTrue) return -1;
     }
-
+    
     /* strip image metadata */
     ret = MagickStripImage(im);
     LOG_PRINT(LOG_DEBUG, "strip_image() ret = %d", ret);
     if (ret != MagickTrue) return -1;
+
+    /* set progressive for jpeg by codejm 2018.04.26 */
+    if (strncmp(req->fmt, "jpeg", 4) == 0 || strncmp(req->fmt, "jpg", 3) == 0) {
+        ret = MagickSetInterlaceScheme(im, PartitionInterlace);
+        LOG_PRINT(LOG_DEBUG, "wi_set_progressive(im, %d) ret = %d", PartitionInterlace, ret);
+        if (ret != MagickTrue) return -1;
+    }
 
     LOG_PRINT(LOG_DEBUG, "convert(im, req) %d", result);
     return result;

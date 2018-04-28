@@ -459,19 +459,11 @@ int on_chunk_data(multipart_parser* p, const char *at, size_t length) {
     if (save_img(mp_arg->thr_arg, at, length, md5sum) == -1) {
         LOG_PRINT(LOG_DEBUG, "Image Save Failed!");
         LOG_PRINT(LOG_ERROR, "%s fail post save", mp_arg->address);
-        evbuffer_add_printf(mp_arg->req->buffer_out,
-                            "<h1>Failed!</h1>\n"
-                            "<p>File save failed!</p>\n"
-                           );
+        evbuffer_add_printf(mp_arg->req->buffer_out, "0|");
     } else {
         mp_arg->succno++;
         LOG_PRINT(LOG_INFO, "%s succ post pic:%s size:%d", mp_arg->address, md5sum, length);
-        evbuffer_add_printf(mp_arg->req->buffer_out,
-                            "<h1>MD5: %s</h1>\n"
-                            "Image upload successfully! You can get this image via this address:<br/><br/>\n"
-                            "<a href=\"/%s\">http://yourhostname:%d/%s</a>?w=width&h=height&g=isgray&x=position_x&y=position_y&r=rotate&q=quality&f=format\n",
-                            md5sum, md5sum, settings.port, md5sum
-                           );
+        evbuffer_add_printf(mp_arg->req->buffer_out, "%s|", md5sum);
     }
     return 0;
 }

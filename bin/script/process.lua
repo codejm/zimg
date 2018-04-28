@@ -67,9 +67,9 @@ local type_list = {
 		size				= 2048,
 		quality			    = QUALITY_95,
 	},
-	webp500 = {
+	webp = {
 		type				= CT_MAX_WIDTH,
-		size				= 500,
+		size				= 2048,
 		quality			    = QUALITY_90,
 		format				= CF_WEBP,
 	},

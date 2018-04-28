@@ -311,12 +311,21 @@ int get_img(zimg_req_t *req, evhtp_request_t *request) {
             }
         }
 
-        if (settings.script_on == 1 && req->type != NULL)
+        if (settings.script_on == 1 && req->type != NULL) {
+            LOG_PRINT(LOG_DEBUG, "start lua convert...");
             ret = lua_convert(im, req);
-        else
+	} else {
+            LOG_PRINT(LOG_DEBUG, "start c convert...");
             ret = convert(im, req);
+	}
         if (ret == -1) goto err;
         if (ret == 0) to_save = false;
+
+	long interlace;
+	interlace = MagickGetInterlaceScheme(im);
+	LOG_PRINT(LOG_DEBUG, "File interlace = %ld", interlace);
+	char *format = MagickGetImageFormat(im);
+	LOG_PRINT(LOG_DEBUG, "File format = %s", format);
 
         buff = (char *)MagickGetImageBlob(im, &len);
         if (buff == NULL) {

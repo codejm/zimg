@@ -52,7 +52,7 @@ LOG_INFO 6      Information
 LOG_DEBUG 7     DEBUG message
 ]]
 --输出log级别
-log_level       = 6
+log_level       = 7
 --输出log路径
 log_name        = pwd .. '/log/zimg.log'
 
@@ -69,6 +69,8 @@ disable_args    = 0
 disable_type    = 0
 --禁用图片放大
 disable_zoom_up = 0
+--禁用progressive jpeg
+disable_progressive = 1
 --lua process script
 --lua脚本文件路径
 script_name     = pwd .. '/script/process.lua'
@@ -88,7 +90,7 @@ quality         = 75
 mode            = 1
 --save_new value: 0.don't save any 1.save all 2.only save types in lua script
 --新文件是否存储，0为不存储，1为全都存储，2为只存储lua脚本产生的新图
-save_new        = 1
+save_new        = 0
 --上传图片大小限制，默认100MB
 max_size        = 100*1024*1024
 --允许上传图片类型列表
